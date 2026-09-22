@@ -1,1 +1,36 @@
-<p>livre-liste works!</p>
+<h1>Liste des livres</h1>
+
+@if (chargement()) {
+  <p>Chargement en cours...</p>
+}
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (!chargement() && !erreur()) {
+  @if (livres().length === 0) {
+    <p>Aucun livre pour le moment.</p>
+  } @else {
+    <table>
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>ISBN</th>
+          <th>Auteur</th>
+          <th>Exemplaires</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (livre of livres(); track livre.id) {
+          <tr>
+            <td>{{ livre.titre }}</td>
+            <td>{{ livre.isbn }}</td>
+            <td>{{ livre.auteurNom }}</td>
+            <td>{{ livre.nombreExemplaires }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
