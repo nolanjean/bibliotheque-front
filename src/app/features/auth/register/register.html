@@ -1,0 +1,27 @@
+<h1>Inscription</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" formControlName="nom" />
+  </div>
+
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" />
+  </div>
+
+  <div>
+    <label for="motDePasse">Mot de passe</label>
+    <input id="motDePasse" type="password" formControlName="motDePasse" />
+    @if (form.controls.motDePasse.invalid && form.controls.motDePasse.touched) {
+      <p class="erreur-champ">6 caractères minimum.</p>
+    }
+  </div>
+
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
+
+  <button type="submit" [disabled]="form.invalid">S'inscrire</button>
+</form>

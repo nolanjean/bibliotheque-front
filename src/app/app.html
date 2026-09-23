@@ -1,1 +1,5 @@
+@if (authService.estConnecte()) {
+  <button (click)="logout()">Se déconnecter</button>
+}
+
 <router-outlet />
