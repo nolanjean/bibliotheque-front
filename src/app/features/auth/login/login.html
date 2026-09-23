@@ -1,0 +1,25 @@
+<h1>Connexion</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Email</label>
+    <input id="email" type="email" formControlName="email" />
+    @if (form.controls.email.invalid && form.controls.email.touched) {
+      <p class="erreur-champ">Email invalide.</p>
+    }
+  </div>
+
+  <div>
+    <label for="motDePasse">Mot de passe</label>
+    <input id="motDePasse" type="password" formControlName="motDePasse" />
+    @if (form.controls.motDePasse.invalid && form.controls.motDePasse.touched) {
+      <p class="erreur-champ">Mot de passe requis.</p>
+    }
+  </div>
+
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
+
+  <button type="submit" [disabled]="form.invalid">Se connecter</button>
+</form>
