@@ -32,5 +32,14 @@
         }
       </tbody>
     </table>
+        <div class="pagination">
+      <button (click)="pagePrecedente()" [disabled]="pageActuelle() === 0">
+        Précédent
+      </button>
+      <span>Page {{ pageActuelle() + 1 }} / {{ totalPages() }}</span>
+      <button (click)="pageSuivante()" [disabled]="pageActuelle() >= totalPages() - 1">
+        Suivant
+      </button>
+    </div>
   }
 }
