@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 import { LivreService } from '../livre';
 import { Livre } from '../../../core/models/livre';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-livre-liste',
   styleUrl: './livre-liste.css',
   templateUrl: './livre-liste.html',

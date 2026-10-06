@@ -13,7 +13,11 @@ export class LivreService {
   private readonly baseUrl = `${environment.apiUrl}/livres`;
 
   getLivres(page = 0, size = 5): Observable<Page<Livre>> {
-  const params = new HttpParams().set('page', page).set('size', size);
-  return this.http.get<Page<Livre>>(this.baseUrl, { params });
-}
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<Page<Livre>>(this.baseUrl, { params });
+  }
+
+    getLivre(id: number): Observable<Livre> {
+    return this.http.get<Livre>(`${this.baseUrl}/${id}`);
+  }
 }

@@ -24,7 +24,7 @@
       <tbody>
         @for (livre of livres(); track livre.id) {
           <tr>
-            <td>{{ livre.titre }}</td>
+            <td><a [routerLink]="['/livres', livre.id]">{{ livre.titre }}</a></td>
             <td>{{ livre.isbn }}</td>
             <td>{{ livre.auteurNom }}</td>
             <td>{{ livre.nombreExemplaires }}</td>
@@ -42,4 +42,5 @@
       </button>
     </div>
   }
+  
 }

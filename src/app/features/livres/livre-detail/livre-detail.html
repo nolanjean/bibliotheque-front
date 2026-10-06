@@ -1,0 +1,16 @@
+@if (chargement()) {
+  <p>Chargement en cours...</p>
+}
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (livre(); as l) {
+  <h1>{{ l.titre }}</h1>
+  <p>ISBN : {{ l.isbn }}</p>
+  <p>Auteur : {{ l.auteurNom }}</p>
+  <p>Exemplaires disponibles : {{ l.nombreExemplaires }}</p>
+}
+
+<a routerLink="/livres">Retour à la liste</a>
