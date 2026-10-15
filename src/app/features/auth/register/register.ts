@@ -37,7 +37,10 @@ export class Register {
           error: () => this.router.navigate(['/login']),
         });
       },
-      error: () => this.erreur.set('Cet email est peut-être déjà utilisé.'),
+      error: (err) => {
+        const messages = err.error ? Object.values(err.error) : [];
+        this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'inscription.");
+      },
     });
   }
 }
