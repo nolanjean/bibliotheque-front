@@ -28,5 +28,8 @@ export class LivreService {
   updateLivre(id: number, data: LivreRequest): Observable<Livre> {
     return this.http.put<Livre>(`${this.baseUrl}/${id}`, data);
   }
+  deleteLivre(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.baseUrl}/${id}`);
+}
 }
 

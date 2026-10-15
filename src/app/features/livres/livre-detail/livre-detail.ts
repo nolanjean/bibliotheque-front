@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LivreService } from '../livre';
 import { Livre } from '../../../core/models/livre';
 import { IsbnFormatPipe } from '../../../shared/isbn-format-pipe';
@@ -13,6 +13,7 @@ import { IsbnFormatPipe } from '../../../shared/isbn-format-pipe';
 export class LivreDetail {
   private livreService = inject(LivreService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   protected readonly livre = signal<Livre | null>(null);
   protected readonly chargement = signal(true);
@@ -29,6 +30,22 @@ export class LivreDetail {
         this.erreur.set('Livre introuvable.');
         this.chargement.set(false);
       },
+    });
+  }
+
+  supprimer(): void {
+    const livre = this.livre();
+    if (!livre) {
+      return;
+    }
+
+    if (!confirm(`Supprimer "${livre.titre}" ? Cette action est irréversible.`)) {
+      return;
+    }
+
+    this.livreService.deleteLivre(livre.id).subscribe({
+      next: () => this.router.navigate(['/livres']),
+      error: () => this.erreur.set('Impossible de supprimer ce livre.'),
     });
   }
 }
