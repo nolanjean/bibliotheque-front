@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Livre } from '../../core/models/livre';
+import { Livre, LivreRequest } from '../../core/models/livre';
 import { Page } from '../../core/models/page';
 import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root',
@@ -20,4 +21,12 @@ export class LivreService {
     getLivre(id: number): Observable<Livre> {
     return this.http.get<Livre>(`${this.baseUrl}/${id}`);
   }
+
+  createLivre(data: LivreRequest): Observable<Livre> {
+  return this.http.post<Livre>(this.baseUrl, data);
+  }
+  updateLivre(id: number, data: LivreRequest): Observable<Livre> {
+    return this.http.put<Livre>(`${this.baseUrl}/${id}`, data);
+  }
 }
+

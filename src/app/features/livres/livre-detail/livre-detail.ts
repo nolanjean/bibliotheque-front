@@ -2,9 +2,10 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { LivreService } from '../livre';
 import { Livre } from '../../../core/models/livre';
+import { IsbnFormatPipe } from '../../../shared/isbn-format-pipe';
 
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, IsbnFormatPipe],
   selector: 'app-livre-detail',
   styleUrl: './livre-detail.css',
   templateUrl: './livre-detail.html',

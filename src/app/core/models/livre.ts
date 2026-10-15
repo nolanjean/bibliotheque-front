@@ -5,3 +5,10 @@ export interface Livre {
   nombreExemplaires: number;
   auteurNom: string;
 }
+
+export interface LivreRequest {
+  titre: string;
+  isbn: string;
+  nombreExemplaires: number;
+  auteurId: number;
+}
