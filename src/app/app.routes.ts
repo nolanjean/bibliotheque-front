@@ -27,6 +27,18 @@ export const routes: Routes = [
     loadComponent: () => import('./features/livres/livre-detail/livre-detail').then((m) => m.LivreDetail),
   },
   {
+    path: 'auteurs',
+    loadComponent: () => import('./features/auteurs/auteur-liste/auteur-liste').then((m) => m.AuteurListe),
+  },
+  {
+    path: 'auteurs/nouveau',
+    loadComponent: () => import('./features/auteurs/auteur-formulaire/auteur-formulaire').then((m) => m.AuteurFormulaire),
+  },
+  {
+    path: 'auteurs/:id/modifier',
+    loadComponent: () => import('./features/auteurs/auteur-formulaire/auteur-formulaire').then((m) => m.AuteurFormulaire),
+  },
+  {
     path: '**',
     loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound),
   },

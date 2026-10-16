@@ -16,4 +16,20 @@ export class AuteurService {
     const params = new HttpParams().set('size', 100);
     return this.http.get<Page<Auteur>>(this.baseUrl, { params });
   }
+
+  getAuteur(id: number): Observable<Auteur> {
+  return this.http.get<Auteur>(`${this.baseUrl}/${id}`);
+}
+
+  createAuteur(data: { nom: string }): Observable<Auteur> {
+    return this.http.post<Auteur>(this.baseUrl, data);
+  }
+
+  updateAuteur(id: number, data: { nom: string }): Observable<Auteur> {
+    return this.http.put<Auteur>(`${this.baseUrl}/${id}`, data);
+  }
+
+  deleteAuteur(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
 }

@@ -1,0 +1,14 @@
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" formControlName="nom" />
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">
+    {{ auteurId() ? 'Modifier' : 'Créer' }}
+  </button>
+</form>

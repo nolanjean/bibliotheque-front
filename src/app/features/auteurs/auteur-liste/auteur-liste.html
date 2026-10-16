@@ -1,0 +1,26 @@
+<h1>Liste des auteurs</h1>
+
+@if (chargement()) {
+  <p>Chargement en cours...</p>
+}
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (!chargement() && !erreur()) {
+  @if (auteurs().length === 0) {
+    <p>Aucun auteur pour le moment.</p>
+  } @else {
+    <ul>
+      @for (auteur of auteurs(); track auteur.id) {
+        <li>
+          <a [routerLink]="['/auteurs', auteur.id, 'modifier']">{{ auteur.nom }}</a>
+          ({{ auteur.titresLivres.length }} livre(s))
+        </li>
+      }
+    </ul>
+  }
+}
+
+<a routerLink="/auteurs/nouveau">Ajouter un auteur</a>
