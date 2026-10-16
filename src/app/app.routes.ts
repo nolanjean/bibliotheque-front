@@ -4,6 +4,7 @@ import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
 import { LivreDetail } from './features/livres/livre-detail/livre-detail';
 import { LivreFormulaire } from './features/livres/livre-formulaire/livre-formulaire';
+import { NotFound } from './features/not-found/not-found';
 
 
 export const routes: Routes = [
@@ -14,4 +15,5 @@ export const routes: Routes = [
   { path: 'livres/nouveau', component: LivreFormulaire },
   { path: 'livres/:id/modifier', component: LivreFormulaire },
   { path: 'livres/:id', component: LivreDetail },
+  { path: '**', component: NotFound },
 ];

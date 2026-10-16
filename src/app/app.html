@@ -1,5 +1,11 @@
-@if (authService.estConnecte()) {
-  <button (click)="logout()">Se déconnecter</button>
-}
+<nav>
+  <a routerLink="/livres">Livres</a>
+  @if (authService.estConnecte()) {
+    <button (click)="logout()">Se déconnecter</button>
+  } @else {
+    <a routerLink="/login">Connexion</a>
+    <a routerLink="/register">Inscription</a>
+  }
+</nav>
 
 <router-outlet />
