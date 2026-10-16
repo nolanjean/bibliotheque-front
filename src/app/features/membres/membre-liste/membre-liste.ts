@@ -17,15 +17,15 @@ export class MembreListe {
   protected readonly erreur = signal<string | null>(null);
 
   constructor() {
-    this.membreService.getMembres().subscribe({
-      next: (page) => {
-        this.membres.set(page.content);
-        this.chargement.set(false);
-      },
-      error: () => {
-        this.erreur.set('Impossible de charger les membres.');
-        this.chargement.set(false);
-      },
-    });
-  }
+  this.membreService.getMembres().subscribe({
+    next: (membres) => {
+      this.membres.set(membres);
+      this.chargement.set(false);
+    },
+    error: () => {
+      this.erreur.set('Impossible de charger les membres.');
+      this.chargement.set(false);
+    },
+  });
+}
 }

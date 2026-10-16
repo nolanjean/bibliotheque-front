@@ -12,10 +12,9 @@ export class MembreService {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/membres`;
 
-  getMembres(): Observable<Page<Membre>> {
-    const params = new HttpParams().set('size', 100);
-    return this.http.get<Page<Membre>>(this.baseUrl, { params });
-  }
+  getMembres(): Observable<Membre[]> {
+  return this.http.get<Membre[]>(this.baseUrl);
+}
 
   getMembre(id: number): Observable<Membre> {
     return this.http.get<Membre>(`${this.baseUrl}/${id}`);
