@@ -1,0 +1,17 @@
+@if (chargement()) {
+  <p>Chargement en cours...</p>
+}
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (membre(); as m) {
+  <h1>{{ m.nom }}</h1>
+  <p>Email : {{ m.email }}</p>
+  <p>Rôle : {{ m.role }}</p>
+  <a [routerLink]="['/membres', m.id, 'modifier']">Modifier</a>
+  <button (click)="supprimer()">Supprimer</button>
+}
+
+<a routerLink="/membres">Retour à la liste</a>

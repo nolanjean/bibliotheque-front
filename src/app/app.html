@@ -1,6 +1,7 @@
 <nav>
   <a routerLink="/livres">Livres</a>
   <a routerLink="/auteurs">Auteurs</a>
+  <a routerLink="/membres">Membres</a>
   @if (authService.estConnecte()) {
     <button (click)="logout()">Se déconnecter</button>
   } @else {

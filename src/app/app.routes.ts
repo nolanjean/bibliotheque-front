@@ -39,6 +39,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auteurs/auteur-formulaire/auteur-formulaire').then((m) => m.AuteurFormulaire),
   },
   {
+  path: 'membres',
+  loadComponent: () => import('./features/membres/membre-liste/membre-liste').then((m) => m.MembreListe),
+},
+{
+  path: 'membres/:id',
+  loadComponent: () => import('./features/membres/membre-detail/membre-detail').then((m) => m.MembreDetail),
+},
+  {
     path: '**',
     loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound),
   },
