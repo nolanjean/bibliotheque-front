@@ -33,18 +33,24 @@ export class MembreDetail {
   }
 
   supprimer(): void {
-    const membre = this.membre();
-    if (!membre) {
-      return;
-    }
-
-    if (!confirm(`Supprimer le membre "${membre.nom}" ? Cette action est irréversible.`)) {
-      return;
-    }
-
-    this.membreService.deleteMembre(membre.id).subscribe({
-      next: () => this.router.navigate(['/membres']),
-      error: () => this.erreur.set('Impossible de supprimer ce membre.'),
-    });
+  const membre = this.membre();
+  if (!membre) {
+    return;
   }
+
+  if (!confirm(`Supprimer le membre "${membre.nom}" ? Cette action est irréversible.`)) {
+    return;
+  }
+
+  this.membreService.deleteMembre(membre.id).subscribe({
+    next: () => this.router.navigate(['/membres']),
+    error: (err) => {
+      if (err.status === 409) {
+        this.erreur.set('Impossible de supprimer ce membre : il a des emprunts liés.');
+      } else {
+        this.erreur.set('Impossible de supprimer ce membre.');
+      }
+    },
+  });
+}
 }
