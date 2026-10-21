@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 import { EmpruntListe } from './emprunt-liste';
 
 describe('EmpruntListe', () => {
@@ -8,7 +9,7 @@ describe('EmpruntListe', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      providers: [provideHttpClient()],
+      providers: [provideHttpClient(), provideRouter([])],
       imports: [EmpruntListe],
     }).compileComponents();
 
