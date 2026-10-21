@@ -1,0 +1,27 @@
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="membreId">Membre</label>
+    <select id="membreId" formControlName="membreId">
+      <option [value]="null" disabled>-- Choisir un membre --</option>
+      @for (membre of membres(); track membre.id) {
+        <option [value]="membre.id">{{ membre.nom }}</option>
+      }
+    </select>
+  </div>
+
+  <div>
+    <label for="livreId">Livre</label>
+    <select id="livreId" formControlName="livreId">
+      <option [value]="null" disabled>-- Choisir un livre --</option>
+      @for (livre of livres(); track livre.id) {
+        <option [value]="livre.id">{{ livre.titre }}</option>
+      }
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="form.invalid">Créer l'emprunt</button>
+</form>

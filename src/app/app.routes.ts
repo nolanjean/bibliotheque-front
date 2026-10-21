@@ -50,6 +50,14 @@ export const routes: Routes = [
   path: 'membres/:id/modifier',
   loadComponent: () => import('./features/membres/membre-formulaire/membre-formulaire').then((m) => m.MembreFormulaire),
 },
+{
+  path: 'emprunts',
+  loadComponent: () => import('./features/emprunts/emprunt-liste/emprunt-liste').then((m) => m.EmpruntListe),
+},
+{
+  path: 'emprunts/nouveau',
+  loadComponent: () => import('./features/emprunts/emprunt-formulaire/emprunt-formulaire').then((m) => m.EmpruntFormulaire),
+},
   {
     path: '**',
     loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound),
