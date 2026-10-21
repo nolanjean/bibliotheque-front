@@ -21,6 +21,7 @@ export class LivreFormulaire implements OnInit {
   protected readonly auteurs = signal<Auteur[]>([]);
   protected readonly erreur = signal<string | null>(null);
   protected readonly livreId = signal<number | null>(null);
+  protected readonly auteurNomActuel = signal<string | null>(null);
 
   protected readonly form = this.fb.group({
     titre: ['', Validators.required],
@@ -30,28 +31,45 @@ export class LivreFormulaire implements OnInit {
   });
 
   ngOnInit(): void {
-    this.auteurService.getAuteurs().subscribe({
-      next: (page) => this.auteurs.set(page.content),
-      error: () => this.erreur.set('Impossible de charger les auteurs.'),
+  this.auteurService.getAuteurs().subscribe({
+    next: (page) => {
+      this.auteurs.set(page.content);
+      this.preselectionnerAuteur();
+    },
+    error: () => this.erreur.set('Impossible de charger les auteurs.'),
+  });
+
+  const idParam = this.route.snapshot.paramMap.get('id');
+  if (idParam) {
+    const id = Number(idParam);
+    this.livreId.set(id);
+
+    this.livreService.getLivre(id).subscribe({
+      next: (livre) => {
+        this.auteurNomActuel.set(livre.auteurNom);
+        this.form.patchValue({
+          titre: livre.titre,
+          isbn: livre.isbn,
+          nombreExemplaires: livre.nombreExemplaires,
+        });
+        this.preselectionnerAuteur();
+      },
+      error: () => this.erreur.set('Livre introuvable.'),
     });
-
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (idParam) {
-      const id = Number(idParam);
-      this.livreId.set(id);
-
-      this.livreService.getLivre(id).subscribe({
-        next: (livre) => {
-          this.form.patchValue({
-            titre: livre.titre,
-            isbn: livre.isbn,
-            nombreExemplaires: livre.nombreExemplaires,
-          });
-        },
-        error: () => this.erreur.set('Livre introuvable.'),
-      });
-    }
   }
+}
+
+private preselectionnerAuteur(): void {
+  const nomActuel = this.auteurNomActuel();
+  if (!nomActuel || this.auteurs().length === 0) {
+    return;
+  }
+
+  const auteurTrouve = this.auteurs().find((a) => a.nom === nomActuel);
+  if (auteurTrouve) {
+    this.form.patchValue({ auteurId: auteurTrouve.id });
+  }
+}
 
   onSubmit(): void {
   if (this.form.invalid) {
