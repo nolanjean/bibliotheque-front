@@ -23,4 +23,6 @@
   }
 }
 
-<a routerLink="/auteurs/nouveau">Ajouter un auteur</a>
+@if (authService.estAdmin()) {
+  <a routerLink="/auteurs/nouveau">Ajouter un auteur</a>
+}

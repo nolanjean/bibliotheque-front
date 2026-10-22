@@ -14,4 +14,7 @@
 }
 
 <a routerLink="/livres">Retour à la liste</a>
-<a [routerLink]="['/livres', livre()?.id, 'modifier']">Modifier</a><button (click)="supprimer()">Supprimer</button>
+@if (authService.estAdmin()) {
+  <a [routerLink]="['/livres', livre()?.id, 'modifier']">Modifier</a>
+  <button (click)="supprimer()">Supprimer</button>
+}

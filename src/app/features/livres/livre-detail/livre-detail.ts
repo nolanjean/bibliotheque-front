@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { LivreService } from '../livre';
 import { Livre } from '../../../core/models/livre';
 import { IsbnFormatPipe } from '../../../shared/isbn-format-pipe';
+import { AuthService } from '../../../core/auth';
 
 @Component({
   imports: [RouterLink, IsbnFormatPipe],
@@ -18,6 +19,7 @@ export class LivreDetail {
   protected readonly livre = signal<Livre | null>(null);
   protected readonly chargement = signal(true);
   protected readonly erreur = signal<string | null>(null);
+  protected authService = inject(AuthService);
 
   constructor() {
     const id = Number(this.route.snapshot.paramMap.get('id'));

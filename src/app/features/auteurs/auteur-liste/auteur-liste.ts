@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuteurService } from '../auteur';
 import { Auteur } from '../../../core/models/auteur';
+import { AuthService } from '../../../core/auth';
 
 @Component({
   imports: [RouterLink],
@@ -15,6 +16,7 @@ export class AuteurListe {
   protected readonly auteurs = signal<Auteur[]>([]);
   protected readonly chargement = signal(true);
   protected readonly erreur = signal<string | null>(null);
+  protected authService = inject(AuthService);
 
   constructor() {
     this.auteurService.getAuteurs().subscribe({

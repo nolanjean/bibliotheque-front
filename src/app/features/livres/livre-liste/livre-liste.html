@@ -32,7 +32,9 @@
         }
       </tbody>
     </table>
-    <a routerLink="/livres/nouveau">Ajouter un livre</a>
+    @if (authService.estAdmin()) {
+  <a routerLink="/livres/nouveau">Ajouter un livre</a>
+}
         <div class="pagination">
       <button (click)="pagePrecedente()" [disabled]="pageActuelle() === 0">
         Précédent

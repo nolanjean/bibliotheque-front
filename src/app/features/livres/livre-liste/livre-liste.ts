@@ -3,6 +3,7 @@ import { LivreService } from '../livre';
 import { Livre } from '../../../core/models/livre';
 import { RouterLink } from '@angular/router';
 import { IsbnFormatPipe } from '../../../shared/isbn-format-pipe';
+import { AuthService } from '../../../core/auth';
 
 @Component({
   imports: [RouterLink, IsbnFormatPipe],
@@ -18,6 +19,7 @@ export class LivreListe {
   protected readonly erreur = signal<string | null>(null);
   protected readonly pageActuelle = signal(0);
   protected readonly totalPages = signal(0);
+  protected authService = inject(AuthService);
 
   constructor() {
     this.chargerPage(0);
