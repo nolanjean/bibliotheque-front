@@ -3,15 +3,17 @@
 }
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="membreId">Membre</label>
-    <select id="membreId" formControlName="membreId">
-      <option [value]="null" disabled>-- Choisir un membre --</option>
-      @for (membre of membres(); track membre.id) {
-        <option [value]="membre.id">{{ membre.nom }}</option>
-      }
-    </select>
-  </div>
+  @if (authService.estAdmin()) {
+    <div>
+      <label for="membreId">Membre (optionnel, sinon c'est pour vous)</label>
+      <select id="membreId" formControlName="membreId">
+        <option [value]="null">-- Moi-même --</option>
+        @for (membre of membres(); track membre.id) {
+          <option [value]="membre.id">{{ membre.nom }}</option>
+        }
+      </select>
+    </div>
+  }
 
   <div>
     <label for="livreId">Livre</label>

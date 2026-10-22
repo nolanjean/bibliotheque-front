@@ -1,4 +1,4 @@
-<h1>Liste des emprunts</h1>
+<h1>{{ authService.estAdmin() ? 'Liste des emprunts' : 'Mes emprunts' }}</h1>
 
 @if (chargement()) {
   <p>Chargement en cours...</p>
@@ -32,7 +32,7 @@
             <td>{{ emprunt.dateRetourPrevue }}</td>
             <td>{{ emprunt.statut }}</td>
             <td>
-              @if (emprunt.statut === 'EN_COURS') {
+              @if (authService.estAdmin() && emprunt.statut === 'EN_COURS') {
                 <button (click)="rendre(emprunt.id)">Marquer comme rendu</button>
               }
             </td>

@@ -25,12 +25,19 @@ export class EmpruntService {
     return this.http.get<Emprunt>(`${this.baseUrl}/${id}`);
   }
 
+  getMesEmprunts(): Observable<Page<Emprunt>> {
+    return this.http.get<Page<Emprunt>>(`${this.baseUrl}/mes-emprunts`);
+  }
+
   rendreEmprunt(id: number): Observable<Emprunt> {
     return this.http.put<Emprunt>(`${this.baseUrl}/${id}/rendre`, {});
   }
 
-  createEmprunt(membreId: number, livreId: number): Observable<Emprunt> {
-  const params = new HttpParams().set('membreId', membreId).set('livreId', livreId);
+  createEmprunt(livreId: number, membreId?: number): Observable<Emprunt> {
+  let params = new HttpParams().set('livreId', livreId);
+  if (membreId) {
+    params = params.set('membreId', membreId);
+  }
   return this.http.post<Emprunt>(this.baseUrl, null, { params });
 }
 }

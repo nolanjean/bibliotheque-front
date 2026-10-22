@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { EmpruntService } from '../emprunt';
+import { AuthService } from '../../../core/auth';
 import { Emprunt } from '../../../core/models/emprunt';
 
 @Component({
@@ -11,6 +12,7 @@ import { Emprunt } from '../../../core/models/emprunt';
 })
 export class EmpruntListe {
   private empruntService = inject(EmpruntService);
+  protected authService = inject(AuthService);
 
   protected readonly emprunts = signal<Emprunt[]>([]);
   protected readonly chargement = signal(true);
@@ -22,7 +24,11 @@ export class EmpruntListe {
 
   private charger(): void {
     this.chargement.set(true);
-    this.empruntService.getEmprunts().subscribe({
+    const requete = this.authService.estAdmin()
+      ? this.empruntService.getEmprunts()
+      : this.empruntService.getMesEmprunts();
+
+    requete.subscribe({
       next: (page) => {
         this.emprunts.set(page.content);
         this.chargement.set(false);
