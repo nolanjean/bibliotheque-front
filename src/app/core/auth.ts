@@ -1,24 +1,33 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { LoginRequest, LoginResponse, RegisterRequest, RegisterResponse } from './models/auth';
-import { environment } from '../../environments/environment';
+import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiUrl}/auth`;
+  private readonly baseUrl = 'http://localhost:8080/api/auth';
   private readonly tokenKey = 'auth_token';
 
   readonly estConnecte = signal<boolean>(this.hasToken());
+  readonly currentUser = signal<User | null>(null);
+  readonly estAdmin = computed(() => this.currentUser()?.role === 'ADMIN');
 
-  login(credentials: LoginRequest): Observable<LoginResponse> {
+  constructor() {
+    if (this.hasToken()) {
+      this.getMe().subscribe({ error: () => this.logout() });
+    }
+  }
+
+  login(credentials: LoginRequest): Observable<User> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
-      tap((response) => {
+      switchMap((response) => {
         localStorage.setItem(this.tokenKey, response.token);
         this.estConnecte.set(true);
+        return this.getMe();
       })
     );
   }
@@ -27,9 +36,14 @@ export class AuthService {
     return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, data);
   }
 
+  getMe(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/me`).pipe(tap((user) => this.currentUser.set(user)));
+  }
+
   logout(): void {
     localStorage.removeItem(this.tokenKey);
     this.estConnecte.set(false);
+    this.currentUser.set(null);
   }
 
   getToken(): string | null {

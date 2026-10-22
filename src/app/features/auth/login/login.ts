@@ -28,8 +28,8 @@ export class Login {
 
     this.erreur.set(null);
     this.authService.login(this.form.getRawValue() as { email: string; motDePasse: string }).subscribe({
-      next: () => this.router.navigate(['/livres']),
-      error: () => this.erreur.set('Email ou mot de passe incorrect.'),
+    next: () => this.router.navigate(['/livres']),
+    error: () => this.erreur.set('Email ou mot de passe incorrect.'),
     });
   }
 }
