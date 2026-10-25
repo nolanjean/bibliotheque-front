@@ -18,7 +18,9 @@ export class AuthService {
 
   constructor() {
     if (this.hasToken()) {
-      this.getMe().subscribe({ error: () => this.logout() });
+      setTimeout(() => {
+        this.getMe().subscribe({ error: () => this.logout() });
+      });
     }
   }
 
@@ -41,10 +43,10 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    this.estConnecte.set(false);
-    this.currentUser.set(null);
-  }
+  localStorage.removeItem(this.tokenKey);
+  this.estConnecte.set(false);
+  this.currentUser.set(null);
+}
 
   getToken(): string | null {
     return localStorage.getItem(this.tokenKey);
