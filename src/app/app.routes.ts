@@ -34,6 +34,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auteurs/auteur-liste/auteur-liste').then((m) => m.AuteurListe),
   },
   {
+  path: 'auteurs/:id',
+  loadComponent: () => import('./features/auteurs/auteur-detail/auteur-detail').then((m) => m.AuteurDetail),
+},
+  {
     path: 'auteurs/nouveau',
     canActivate: [adminGuard],
     loadComponent: () => import('./features/auteurs/auteur-formulaire/auteur-formulaire').then((m) => m.AuteurFormulaire),

@@ -15,11 +15,7 @@
     <ul>
       @for (auteur of auteurs(); track auteur.id) {
         <li>
-          @if (authService.estAdmin()) {
-            <a [routerLink]="['/auteurs', auteur.id, 'modifier']">{{ auteur.nom }}</a>
-          } @else {
-            {{ auteur.nom }}
-          }
+          <a [routerLink]="['/auteurs', auteur.id]">{{ auteur.nom }}</a>
           ({{ auteur.titresLivres.length }} livre(s))
         </li>
       }

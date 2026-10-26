@@ -1,0 +1,28 @@
+@if (chargement()) {
+  <p>Chargement en cours...</p>
+}
+
+@if (erreur()) {
+  <p class="erreur">{{ erreur() }}</p>
+}
+
+@if (auteur(); as a) {
+  <h1>{{ a.nom }}</h1>
+
+  @if (a.titresLivres.length === 0) {
+    <p>Aucun livre enregistré pour cet auteur.</p>
+  } @else {
+    <h2>Livres ({{ a.titresLivres.length }})</h2>
+    <ul>
+      @for (titre of a.titresLivres; track titre) {
+        <li>{{ titre }}</li>
+      }
+    </ul>
+  }
+
+  @if (authService.estAdmin()) {
+    <a [routerLink]="['/auteurs', a.id, 'modifier']">Modifier</a>
+  }
+}
+
+<a routerLink="/auteurs">Retour à la liste</a>
