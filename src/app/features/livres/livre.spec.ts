@@ -27,28 +27,28 @@ describe('LivreService', () => {
   });
 
   it('getLivres devrait appeler le bon endpoint avec pagination', () => {
-    const fauxLivres: Livre[] = [
-      { id: 1, titre: 'Le Petit Prince', isbn: '9782070408572', nombreExemplaires: 3, auteurNom: 'Saint-Exupéry' },
-    ];
-    const fausseReponse: Page<Livre> = {
-      content: fauxLivres,
-      totalPages: 1,
-      totalElements: 1,
+  const fauxLivres: Livre[] = [
+    { id: 1, titre: 'Le Petit Prince', isbn: '9782070408572', nombreExemplaires: 3, auteurNom: 'Saint-Exupéry' },
+  ];
+  const fausseReponse: Page<Livre> = {
+    content: fauxLivres,
+    page: {
       size: 5,
       number: 0,
-      first: true,
-      last: true,
-    };
+      totalElements: 1,
+      totalPages: 1,
+    },
+  };
 
-    service.getLivres(0, 5).subscribe((reponse) => {
-      expect(reponse.content.length).toBe(1);
-      expect(reponse.content[0].titre).toBe('Le Petit Prince');
-    });
-
-    const req = httpMock.expectOne(`${environment.apiUrl}/livres?page=0&size=5`);
-    expect(req.request.method).toBe('GET');
-    req.flush(fausseReponse);
+  service.getLivres(0, 5).subscribe((reponse) => {
+    expect(reponse.content.length).toBe(1);
+    expect(reponse.content[0].titre).toBe('Le Petit Prince');
   });
+
+  const req = httpMock.expectOne(`${environment.apiUrl}/livres?page=0&size=5`);
+  expect(req.request.method).toBe('GET');
+  req.flush(fausseReponse);
+});
 
   it('getLivre devrait appeler le bon endpoint avec l\'id', () => {
     const fauxLivre: Livre = {

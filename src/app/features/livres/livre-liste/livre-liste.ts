@@ -26,22 +26,22 @@ export class LivreListe {
   }
 
   private chargerPage(page: number): void {
-    this.chargement.set(true);
-    this.erreur.set(null);
+  this.chargement.set(true);
+  this.erreur.set(null);
 
-    this.livreService.getLivres(page).subscribe({
-      next: (result) => {
-        this.livres.set(result.content);
-        this.pageActuelle.set(result.number);
-        this.totalPages.set(result.totalPages);
-        this.chargement.set(false);
-      },
-      error: () => {
-        this.erreur.set('Impossible de charger les livres.');
-        this.chargement.set(false);
-      },
-    });
-  }
+  this.livreService.getLivres(page).subscribe({
+    next: (result) => {
+      this.livres.set(result.content);
+      this.pageActuelle.set(result.page.number);
+      this.totalPages.set(result.page.totalPages);
+      this.chargement.set(false);
+    },
+    error: () => {
+      this.erreur.set('Impossible de charger les livres.');
+      this.chargement.set(false);
+    },
+  });
+}
 
   pagePrecedente(): void {
     if (this.pageActuelle() > 0) {
