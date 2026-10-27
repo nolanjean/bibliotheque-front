@@ -65,11 +65,12 @@ Les fichiers compilés sont générés dans `dist/`.
 
 ## Structure du projet
 
+```text
 src/app/
-├── core/ # Services transverses (auth, guards, intercepteurs, modèles)
-├── features/ # Un dossier par fonctionnalité (livres, auteurs, membres, emprunts, auth)
-└── shared/ # Éléments réutilisables (pipes...)
-
+├── core/       # Services transverses (auth, guards, intercepteurs, modèles)
+├── features/   # Un dossier par fonctionnalité (livres, auteurs, membres, emprunts, auth)
+└── shared/     # Éléments réutilisables (pipes...)
+```
 
 ## Projet lié
 
