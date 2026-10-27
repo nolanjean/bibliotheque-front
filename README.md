@@ -1,59 +1,76 @@
-# BibliothequeFront
+# Bibliothèque Front
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.8.
+Interface web Angular pour [Bibliothèque API](https://github.com/nolanjean/bibliotheque-api), une API REST Spring Boot de gestion de bibliothèque (livres, auteurs, membres, emprunts).
 
-## Development server
+Ce projet permet de consulter et gérer le catalogue d'une bibliothèque : parcourir les livres et auteurs, créer un compte, emprunter un livre, et pour les administrateurs, gérer le catalogue et les membres.
 
-To start a local development server, run:
+## Fonctionnalités
+
+- **Authentification** : inscription, connexion, session persistante (JWT)
+- **Livres** : consultation paginée, détail, création/modification/suppression (admin)
+- **Auteurs** : consultation, création/modification (admin)
+- **Membres** : consultation, modification, suppression (admin)
+- **Emprunts** : consultation de ses propres emprunts (membre) ou de tous les emprunts (admin), création d'un emprunt, retour d'un livre (admin)
+- **Gestion des rôles** : interface adaptée selon le rôle de l'utilisateur connecté (`ADMIN` / `MEMBRE`), à la fois dans l'affichage et dans l'accès aux routes
+- Interface responsive (mobile / desktop)
+
+## Stack technique
+
+- [Angular](https://angular.dev/) 22 (composants standalone, signals, lazy loading)
+- TypeScript (mode strict)
+- RxJS
+- ESLint + Prettier
+- Tests unitaires avec Vitest et `HttpTestingController`
+
+## Prérequis
+
+- Node.js 20 ou supérieur
+- [Bibliothèque API](https://github.com/nolanjean/bibliotheque-api) démarrée en local sur `http://localhost:8080`
+
+## Installation
+
+```bash
+git clone https://github.com/nolanjean/bibliotheque-front.git
+cd bibliotheque-front
+npm install
+```
+
+## Lancer le projet
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+L'application est accessible sur `http://localhost:4200`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Tests
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Lint
 
 ```bash
-ng e2e
+ng lint
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Build de production
 
-## Additional Resources
+```bash
+ng build
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Les fichiers compilés sont générés dans `dist/`.
+
+## Structure du projet
+
+src/app/
+├── core/ # Services transverses (auth, guards, intercepteurs, modèles)
+├── features/ # Un dossier par fonctionnalité (livres, auteurs, membres, emprunts, auth)
+└── shared/ # Éléments réutilisables (pipes...)
+
+
+## Projet lié
+
+Backend : [bibliotheque-api](https://github.com/nolanjean/bibliotheque-api)
