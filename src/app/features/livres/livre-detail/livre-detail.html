@@ -1,20 +1,27 @@
-@if (chargement()) {
-  <p>Chargement en cours...</p>
-}
+<div class="page-container">
+  @if (chargement()) {
+    <p>Chargement en cours...</p>
+  }
 
-@if (erreur()) {
-  <p class="erreur">{{ erreur() }}</p>
-}
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
 
-@if (livre(); as l) {
-  <h1>{{ l.titre }}</h1>
-  <p>ISBN : {{ l.isbn | isbnFormat }}</p>
-  <p>Auteur : {{ l.auteurNom }}</p>
-  <p>Exemplaires disponibles : {{ l.nombreExemplaires }}</p>
-}
+  @if (livre(); as l) {
+    <h1>{{ l.titre }}</h1>
+    <p>ISBN : {{ l.isbn | isbnFormat }}</p>
+    <p>Auteur : {{ l.auteurNom }}</p>
+    <p>Exemplaires disponibles : {{ l.nombreExemplaires }}</p>
 
-<a routerLink="/livres">Retour à la liste</a>
-@if (authService.estAdmin()) {
-  <a [routerLink]="['/livres', livre()?.id, 'modifier']">Modifier</a>
-  <button (click)="supprimer()">Supprimer</button>
-}
+    @if (authService.estAdmin()) {
+      <div class="actions">
+        <a class="bouton-secondaire" [routerLink]="['/livres', l.id, 'modifier']">Modifier</a>
+        <button class="bouton-danger" (click)="supprimer()">Supprimer</button>
+      </div>
+    }
+  }
+
+  <div class="actions">
+    <a class="bouton-secondaire" routerLink="/livres">Retour à la liste</a>
+  </div>
+</div>

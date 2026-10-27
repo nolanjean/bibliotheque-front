@@ -1,28 +1,32 @@
-<h1>Liste des auteurs</h1>
+<div class="page-container">
+  <h1>Liste des auteurs</h1>
 
-@if (chargement()) {
-  <p>Chargement en cours...</p>
-}
-
-@if (erreur()) {
-  <p class="erreur">{{ erreur() }}</p>
-}
-
-@if (!chargement() && !erreur()) {
-  @if (auteurs().length === 0) {
-    <p>Aucun auteur pour le moment.</p>
-  } @else {
-    <ul>
-      @for (auteur of auteurs(); track auteur.id) {
-        <li>
-          <a [routerLink]="['/auteurs', auteur.id]">{{ auteur.nom }}</a>
-          ({{ auteur.titresLivres.length }} livre(s))
-        </li>
-      }
-    </ul>
+  @if (chargement()) {
+    <p>Chargement en cours...</p>
   }
-}
 
-@if (authService.estAdmin()) {
-  <a routerLink="/auteurs/nouveau">Ajouter un auteur</a>
-}
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
+
+  @if (!chargement() && !erreur()) {
+    @if (auteurs().length === 0) {
+      <p>Aucun auteur pour le moment.</p>
+    } @else {
+      <ul>
+        @for (auteur of auteurs(); track auteur.id) {
+          <li>
+            <a [routerLink]="['/auteurs', auteur.id]">{{ auteur.nom }}</a>
+            ({{ auteur.titresLivres.length }} livre(s))
+          </li>
+        }
+      </ul>
+    }
+  }
+
+  @if (authService.estAdmin()) {
+    <div class="actions">
+      <a class="bouton-primaire" routerLink="/auteurs/nouveau">Ajouter un auteur</a>
+    </div>
+  }
+</div>

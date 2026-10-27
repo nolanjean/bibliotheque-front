@@ -1,34 +1,36 @@
-<h1>Liste des membres</h1>
+<div class="page-container">
+  <h1>Liste des membres</h1>
 
-@if (chargement()) {
-  <p>Chargement en cours...</p>
-}
-
-@if (erreur()) {
-  <p class="erreur">{{ erreur() }}</p>
-}
-
-@if (!chargement() && !erreur()) {
-  @if (membres().length === 0) {
-    <p>Aucun membre pour le moment.</p>
-  } @else {
-    <table>
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Rôle</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (membre of membres(); track membre.id) {
-          <tr>
-            <td><a [routerLink]="['/membres', membre.id]">{{ membre.nom }}</a></td>
-            <td>{{ membre.email }}</td>
-            <td>{{ membre.role }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
+  @if (chargement()) {
+    <p>Chargement en cours...</p>
   }
-}
+
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
+
+  @if (!chargement() && !erreur()) {
+    @if (membres().length === 0) {
+      <p>Aucun membre pour le moment.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Rôle</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (membre of membres(); track membre.id) {
+            <tr>
+              <td><a [routerLink]="['/membres', membre.id]">{{ membre.nom }}</a></td>
+              <td>{{ membre.email }}</td>
+              <td>{{ membre.role }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+</div>

@@ -1,34 +1,36 @@
-@if (erreur()) {
-  <p class="erreur">{{ erreur() }}</p>
-}
+<div class="page-container">
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="titre">Titre</label>
-    <input id="titre" type="text" formControlName="titre" />
-  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="titre">Titre</label>
+      <input id="titre" type="text" formControlName="titre" />
+    </div>
 
-  <div>
-    <label for="isbn">ISBN</label>
-    <input id="isbn" type="text" formControlName="isbn" />
-  </div>
+    <div>
+      <label for="isbn">ISBN</label>
+      <input id="isbn" type="text" formControlName="isbn" />
+    </div>
 
-  <div>
-    <label for="nombreExemplaires">Nombre d'exemplaires</label>
-    <input id="nombreExemplaires" type="number" formControlName="nombreExemplaires" />
-  </div>
+    <div>
+      <label for="nombreExemplaires">Nombre d'exemplaires</label>
+      <input id="nombreExemplaires" type="number" formControlName="nombreExemplaires" />
+    </div>
 
-  <div>
-    <label for="auteurId">Auteur</label>
-    <select id="auteurId" formControlName="auteurId">
-      <option [value]="null" disabled>-- Choisir un auteur --</option>
-      @for (auteur of auteurs(); track auteur.id) {
-        <option [value]="auteur.id">{{ auteur.nom }}</option>
-      }
-    </select>
-  </div>
+    <div>
+      <label for="auteurId">Auteur</label>
+      <select id="auteurId" formControlName="auteurId">
+        <option [value]="null" disabled>-- Choisir un auteur --</option>
+        @for (auteur of auteurs(); track auteur.id) {
+          <option [value]="auteur.id">{{ auteur.nom }}</option>
+        }
+      </select>
+    </div>
 
-  <button type="submit" [disabled]="form.invalid">
-    {{ livreId() ? 'Modifier' : 'Créer' }}
-  </button>
-</form>
+    <button class="bouton-primaire" type="submit" [disabled]="form.invalid">
+      {{ livreId() ? 'Modifier' : 'Créer' }}
+    </button>
+  </form>
+</div>

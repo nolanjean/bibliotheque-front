@@ -1,47 +1,50 @@
-<h1>{{ authService.estAdmin() ? 'Liste des emprunts' : 'Mes emprunts' }}</h1>
+<div class="page-container">
+  <h1>{{ authService.estAdmin() ? 'Liste des emprunts' : 'Mes emprunts' }}</h1>
 
-@if (chargement()) {
-  <p>Chargement en cours...</p>
-}
-
-@if (erreur()) {
-  <p class="erreur">{{ erreur() }}</p>
-}
-
-@if (!chargement() && !erreur()) {
-  @if (emprunts().length === 0) {
-    <p>Aucun emprunt pour le moment.</p>
-  } @else {
-    <table>
-      <thead>
-        <tr>
-          <th>Membre</th>
-          <th>Livre</th>
-          <th>Date d'emprunt</th>
-          <th>Retour prévu</th>
-          <th>Statut</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (emprunt of emprunts(); track emprunt.id) {
-          <tr>
-            <td>{{ emprunt.membreNom }}</td>
-            <td>{{ emprunt.livreTitre }}</td>
-            <td>{{ emprunt.dateEmprunt }}</td>
-            <td>{{ emprunt.dateRetourPrevue }}</td>
-            <td>{{ emprunt.statut }}</td>
-            <td>
-              @if (authService.estAdmin() && emprunt.statut === 'EN_COURS') {
-                <button (click)="rendre(emprunt.id)">Marquer comme rendu</button>
-              }
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-    
+  @if (chargement()) {
+    <p>Chargement en cours...</p>
   }
-  
-}
-<a routerLink="/emprunts/nouveau">Créer un emprunt</a>
+
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
+
+  @if (!chargement() && !erreur()) {
+    @if (emprunts().length === 0) {
+      <p>Aucun emprunt pour le moment.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Membre</th>
+            <th>Livre</th>
+            <th>Date d'emprunt</th>
+            <th>Retour prévu</th>
+            <th>Statut</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (emprunt of emprunts(); track emprunt.id) {
+            <tr>
+              <td>{{ emprunt.membreNom }}</td>
+              <td>{{ emprunt.livreTitre }}</td>
+              <td>{{ emprunt.dateEmprunt }}</td>
+              <td>{{ emprunt.dateRetourPrevue }}</td>
+              <td>{{ emprunt.statut }}</td>
+              <td>
+                @if (authService.estAdmin() && emprunt.statut === 'EN_COURS') {
+                  <button class="bouton-secondaire" (click)="rendre(emprunt.id)">Marquer comme rendu</button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  }
+
+  <div class="actions">
+    <a class="bouton-primaire" routerLink="/emprunts/nouveau">Créer un emprunt</a>
+  </div>
+</div>

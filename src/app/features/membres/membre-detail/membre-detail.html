@@ -1,17 +1,24 @@
-@if (chargement()) {
-  <p>Chargement en cours...</p>
-}
+<div class="page-container">
+  @if (chargement()) {
+    <p>Chargement en cours...</p>
+  }
 
-@if (erreur()) {
-  <p class="erreur">{{ erreur() }}</p>
-}
+  @if (erreur()) {
+    <p class="erreur">{{ erreur() }}</p>
+  }
 
-@if (membre(); as m) {
-  <h1>{{ m.nom }}</h1>
-  <p>Email : {{ m.email }}</p>
-  <p>Rôle : {{ m.role }}</p>
-  <a [routerLink]="['/membres', m.id, 'modifier']">Modifier</a>
-  <button (click)="supprimer()">Supprimer</button>
-}
+  @if (membre(); as m) {
+    <h1>{{ m.nom }}</h1>
+    <p>Email : {{ m.email }}</p>
+    <p>Rôle : {{ m.role }}</p>
 
-<a routerLink="/membres">Retour à la liste</a>
+    <div class="actions">
+      <a class="bouton-secondaire" [routerLink]="['/membres', m.id, 'modifier']">Modifier</a>
+      <button class="bouton-danger" (click)="supprimer()">Supprimer</button>
+    </div>
+  }
+
+  <div class="actions">
+    <a class="bouton-secondaire" routerLink="/membres">Retour à la liste</a>
+  </div>
+</div>
