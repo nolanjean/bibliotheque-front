@@ -25,7 +25,7 @@ Ce projet permet de consulter et gérer le catalogue d'une bibliothèque : parco
 ## Prérequis
 
 - Node.js 20 ou supérieur
-- [Bibliothèque API](https://github.com/nolanjean/bibliotheque-api) démarrée en local sur `http://localhost:8080`
+- [Bibliothèque API](https://github.com/nolanjean/bibliotheque-api) démarrée en local sur `http://localhost:8080` — ce projet n'est pas déployé en ligne, il doit être lancé localement avec son backend pour fonctionner
 
 ## Installation
 
