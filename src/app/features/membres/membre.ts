@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Page } from '../../core/models/page';
 import { Membre } from '../../core/models/membre';
-
 
 @Injectable({
   providedIn: 'root',
@@ -12,9 +12,10 @@ export class MembreService {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/membres`;
 
-  getMembres(): Observable<Membre[]> {
-  return this.http.get<Membre[]>(this.baseUrl);
-}
+  getMembres(page = 0, size = 20): Observable<Page<Membre>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<Page<Membre>>(this.baseUrl, { params });
+  }
 
   getMembre(id: number): Observable<Membre> {
     return this.http.get<Membre>(`${this.baseUrl}/${id}`);

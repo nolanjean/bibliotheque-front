@@ -33,8 +33,8 @@ export class EmpruntFormulaire implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.estAdmin()) {
-      this.membreService.getMembres().subscribe({
-        next: (membres) => this.membres.set(membres),
+      this.membreService.getMembres(0, 100).subscribe({
+        next: (page) => this.membres.set(page.content),
         error: () => this.erreur.set('Impossible de charger les membres.'),
       });
     }
