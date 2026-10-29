@@ -1,6 +1,32 @@
 <div class="page-container">
   <h1>Liste des livres</h1>
 
+  <div class="filtres">
+    <input
+      type="search"
+      placeholder="Rechercher un titre ou un ISBN..."
+      [value]="recherche()"
+      (input)="onRecherche($event)"
+      aria-label="Rechercher un livre"
+    />
+
+    <select (change)="onAuteurChange($event)" aria-label="Filtrer par auteur">
+      <option value="">Tous les auteurs</option>
+      @for (auteur of auteurs(); track auteur.id) {
+        <option [value]="auteur.id" [selected]="auteurFiltre() === auteur.id">{{ auteur.nom }}</option>
+      }
+    </select>
+
+    <select (change)="onTriChange($event)" aria-label="Trier les livres">
+      <option value="id,asc">Plus anciens d'abord</option>
+      <option value="id,desc">Plus récents d'abord</option>
+      <option value="titre,asc">Titre A → Z</option>
+      <option value="titre,desc">Titre Z → A</option>
+    </select>
+
+    <button class="bouton-secondaire" (click)="reinitialiser()">Réinitialiser</button>
+  </div>
+
   @if (chargement()) {
     <p>Chargement en cours...</p>
   }

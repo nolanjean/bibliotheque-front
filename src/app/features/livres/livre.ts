@@ -6,6 +6,12 @@ import { Page } from '../../core/models/page';
 import { environment } from '../../../environments/environment';
 
 
+export interface FiltresLivres {
+  q?: string;
+  auteurId?: number;
+  sort?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,12 +19,23 @@ export class LivreService {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/livres`;
 
-  getLivres(page = 0, size = 5): Observable<Page<Livre>> {
-    const params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<Page<Livre>>(this.baseUrl, { params });
+  getLivres(page = 0, size = 5, filtres: FiltresLivres = {}): Observable<Page<Livre>> {
+  let params = new HttpParams().set('page', page).set('size', size);
+
+  if (filtres.q) {
+    params = params.set('q', filtres.q);
+  }
+  if (filtres.auteurId) {
+    params = params.set('auteurId', filtres.auteurId);
+  }
+  if (filtres.sort) {
+    params = params.set('sort', filtres.sort);
   }
 
-    getLivre(id: number): Observable<Livre> {
+  return this.http.get<Page<Livre>>(this.baseUrl, { params });
+}
+
+  getLivre(id: number): Observable<Livre> {
     return this.http.get<Livre>(`${this.baseUrl}/${id}`);
   }
 

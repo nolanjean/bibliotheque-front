@@ -144,3 +144,16 @@ ul li {
   padding: 0.5rem 0;
   border-bottom: 1px solid #eee;
 }
+
+.filtres {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filtres input,
+.filtres select {
+  width: auto;
+  flex: 1 1 200px;
+}
