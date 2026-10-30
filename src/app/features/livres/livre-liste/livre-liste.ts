@@ -1,5 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { EMPTY, Subject, catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { LivreService, FiltresLivres } from '../livre';
 import { AuteurService } from '../../auteurs/auteur';
 import { AuthService } from '../../../core/auth';
@@ -29,69 +31,88 @@ export class LivreListe {
   protected readonly auteurFiltre = signal<number | null>(null);
   protected readonly tri = signal('id,asc');
 
+  private readonly demandePage$ = new Subject<number>();
+  private readonly saisie$ = new Subject<string>();
+
   constructor() {
-    this.auteurService.getAuteurs().subscribe({
-      next: (page) => this.auteurs.set(page.content),
-    });
-    this.chargerPage(0);
-  }
-
-  private chargerPage(page: number): void {
-    this.chargement.set(true);
-    this.erreur.set(null);
-
-    const filtres: FiltresLivres = {
-      q: this.recherche() || undefined,
-      auteurId: this.auteurFiltre() ?? undefined,
-      sort: this.tri(),
-    };
-
-    this.livreService.getLivres(page, 5, filtres).subscribe({
-      next: (result) => {
+    this.demandePage$
+      .pipe(
+        tap(() => {
+          this.chargement.set(true);
+          this.erreur.set(null);
+        }),
+        switchMap((page) =>
+          this.livreService.getLivres(page, 5, this.filtres()).pipe(
+            catchError(() => {
+              this.erreur.set('Impossible de charger les livres.');
+              this.chargement.set(false);
+              return EMPTY;
+            }),
+          ),
+        ),
+        takeUntilDestroyed(),
+      )
+      .subscribe((result) => {
         this.livres.set(result.content);
         this.pageActuelle.set(result.page.number);
         this.totalPages.set(result.page.totalPages);
         this.chargement.set(false);
-      },
-      error: () => {
-        this.erreur.set('Impossible de charger les livres.');
-        this.chargement.set(false);
-      },
+      });
+
+    this.saisie$
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntilDestroyed())
+      .subscribe((texte) => {
+        this.recherche.set(texte);
+        this.demandePage$.next(0);
+      });
+
+    this.auteurService.getAuteurs().subscribe({
+      next: (page) => this.auteurs.set(page.content),
+      error: () => this.auteurs.set([]),
     });
+
+    this.demandePage$.next(0);
+  }
+
+  private filtres(): FiltresLivres {
+    return {
+      q: this.recherche() || undefined,
+      auteurId: this.auteurFiltre() ?? undefined,
+      sort: this.tri(),
+    };
   }
 
   onRecherche(event: Event): void {
-    this.recherche.set((event.target as HTMLInputElement).value);
-    this.chargerPage(0);
+    this.saisie$.next((event.target as HTMLInputElement).value);
   }
 
   onAuteurChange(event: Event): void {
     const valeur = (event.target as HTMLSelectElement).value;
     this.auteurFiltre.set(valeur ? Number(valeur) : null);
-    this.chargerPage(0);
+    this.demandePage$.next(0);
   }
 
   onTriChange(event: Event): void {
     this.tri.set((event.target as HTMLSelectElement).value);
-    this.chargerPage(0);
+    this.demandePage$.next(0);
   }
 
   reinitialiser(): void {
     this.recherche.set('');
     this.auteurFiltre.set(null);
     this.tri.set('id,asc');
-    this.chargerPage(0);
+    this.demandePage$.next(0);
   }
 
   pagePrecedente(): void {
     if (this.pageActuelle() > 0) {
-      this.chargerPage(this.pageActuelle() - 1);
+      this.demandePage$.next(this.pageActuelle() - 1);
     }
   }
 
   pageSuivante(): void {
     if (this.pageActuelle() < this.totalPages() - 1) {
-      this.chargerPage(this.pageActuelle() + 1);
+      this.demandePage$.next(this.pageActuelle() + 1);
     }
   }
 }
