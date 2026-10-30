@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet, RouterLink, Router } from '@angular/router';
 import { AuthService } from './core/auth';
+import { NotificationBanner } from './shared/notification-banner/notification-banner';
+
 
 @Component({
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, NotificationBanner],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',

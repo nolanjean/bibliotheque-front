@@ -1,0 +1,12 @@
+<div class="notification-zone" aria-live="polite">
+  @if (notificationService.notification(); as n) {
+    <div
+      class="notification"
+      [class.notification-succes]="n.type === 'succes'"
+      [class.notification-erreur]="n.type === 'erreur'"
+    >
+      <span>{{ n.message }}</span>
+      <button type="button" (click)="notificationService.fermer()" aria-label="Fermer la notification">×</button>
+    </div>
+  }
+</div>
