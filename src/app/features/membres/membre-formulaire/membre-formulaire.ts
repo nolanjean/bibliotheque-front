@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembreService } from '../membre';
+import { NotificationService } from '../../../core/notification';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -14,6 +15,7 @@ export class MembreFormulaire implements OnInit {
   private membreService = inject(MembreService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   protected readonly erreur = signal<string | null>(null);
   protected readonly membreId = signal<number | null>(null);
@@ -47,7 +49,10 @@ export class MembreFormulaire implements OnInit {
     }
 
     this.membreService.updateMembre(id, data).subscribe({
-      next: (membre) => this.router.navigate(['/membres', membre.id]),
+      next: (membre) => {
+        this.notificationService.succes('Membre modifié.');
+        this.router.navigate(['/membres', membre.id]);
+      },
       error: (err) => {
         const messages = err.error ? Object.values(err.error) : [];
         this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'enregistrement du membre.");

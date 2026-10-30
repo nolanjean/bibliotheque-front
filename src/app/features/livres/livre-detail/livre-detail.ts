@@ -4,6 +4,7 @@ import { LivreService } from '../livre';
 import { Livre } from '../../../core/models/livre';
 import { IsbnFormatPipe } from '../../../shared/isbn-format-pipe';
 import { AuthService } from '../../../core/auth';
+import { NotificationService } from '../../../core/notification';
 
 @Component({
   imports: [RouterLink, IsbnFormatPipe],
@@ -15,6 +16,7 @@ export class LivreDetail {
   private livreService = inject(LivreService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   protected readonly livre = signal<Livre | null>(null);
   protected readonly chargement = signal(true);
@@ -46,7 +48,10 @@ export class LivreDetail {
     }
 
     this.livreService.deleteLivre(livre.id).subscribe({
-      next: () => this.router.navigate(['/livres']),
+      next: () => {
+        this.notificationService.succes(`Livre « ${livre.titre} » supprimé.`);
+        this.router.navigate(['/livres']);
+      },
       error: () => this.erreur.set('Impossible de supprimer ce livre.'),
     });
   }

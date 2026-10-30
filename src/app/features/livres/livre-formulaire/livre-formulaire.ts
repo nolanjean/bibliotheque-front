@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LivreService } from '../livre';
 import { AuteurService } from '../../auteurs/auteur';
 import { Auteur } from '../../../core/models/auteur';
+import { NotificationService } from '../../../core/notification';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -17,6 +18,7 @@ export class LivreFormulaire implements OnInit {
   private auteurService = inject(AuteurService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   protected readonly auteurs = signal<Auteur[]>([]);
   protected readonly erreur = signal<string | null>(null);
@@ -91,7 +93,10 @@ private preselectionnerAuteur(): void {
     : this.livreService.createLivre(data);
 
   requete.subscribe({
-    next: (livre) => this.router.navigate(['/livres', livre.id]),
+    next: (livre) => {
+      this.notificationService.succes(id ? 'Livre modifié.' : 'Livre créé.');
+      this.router.navigate(['/livres', livre.id]);
+    },
     error: (err) => {
       const messages = err.error ? Object.values(err.error) : [];
       this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'enregistrement du livre.");

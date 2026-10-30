@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { EmpruntService } from '../emprunt';
 import { AuthService } from '../../../core/auth';
 import { Emprunt } from '../../../core/models/emprunt';
+import { NotificationService } from '../../../core/notification';
 
 @Component({
   imports: [RouterLink],
@@ -12,6 +13,7 @@ import { Emprunt } from '../../../core/models/emprunt';
 })
 export class EmpruntListe {
   private empruntService = inject(EmpruntService);
+  private notificationService = inject(NotificationService);
   protected authService = inject(AuthService);
 
   protected readonly emprunts = signal<Emprunt[]>([]);
@@ -42,7 +44,10 @@ export class EmpruntListe {
 
   rendre(id: number): void {
     this.empruntService.rendreEmprunt(id).subscribe({
-      next: () => this.charger(),
+      next: () => {
+        this.notificationService.succes('Emprunt marqué comme rendu.');
+        this.charger();
+      },
       error: () => this.erreur.set("Impossible de marquer cet emprunt comme rendu."),
     });
   }

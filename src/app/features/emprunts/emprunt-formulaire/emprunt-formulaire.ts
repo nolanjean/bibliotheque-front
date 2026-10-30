@@ -7,6 +7,7 @@ import { LivreService } from '../../livres/livre';
 import { AuthService } from '../../../core/auth';
 import { Membre } from '../../../core/models/membre';
 import { Livre } from '../../../core/models/livre';
+import { NotificationService } from '../../../core/notification';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -21,6 +22,7 @@ export class EmpruntFormulaire implements OnInit {
   private livreService = inject(LivreService);
   private router = inject(Router);
   protected authService = inject(AuthService);
+  private notificationService = inject(NotificationService);
 
   protected readonly membres = signal<Membre[]>([]);
   protected readonly livres = signal<Livre[]>([]);
@@ -58,7 +60,10 @@ export class EmpruntFormulaire implements OnInit {
       : this.empruntService.createEmprunt(livreId);
 
     requete.subscribe({
-      next: () => this.router.navigate(['/emprunts']),
+      next: () => {
+        this.notificationService.succes('Emprunt créé.');
+        this.router.navigate(['/emprunts']);
+      },
       error: (err) => {
         const messages = err.error ? Object.values(err.error) : [];
         this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de la création de l'emprunt.");

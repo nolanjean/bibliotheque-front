@@ -2,6 +2,7 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuteurService } from '../auteur';
+import { NotificationService } from '../../../core/notification';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -14,6 +15,7 @@ export class AuteurFormulaire implements OnInit {
   private auteurService = inject(AuteurService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   protected readonly erreur = signal<string | null>(null);
   protected readonly auteurId = signal<number | null>(null);
@@ -49,7 +51,10 @@ export class AuteurFormulaire implements OnInit {
       : this.auteurService.createAuteur(data);
 
     requete.subscribe({
-      next: () => this.router.navigate(['/auteurs']),
+      next: () => {
+        this.notificationService.succes(id ? 'Auteur modifié.' : 'Auteur créé.');
+        this.router.navigate(['/auteurs']);
+      },
       error: (err) => {
         const messages = err.error ? Object.values(err.error) : [];
         this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'enregistrement de l'auteur.");
