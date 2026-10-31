@@ -20,7 +20,7 @@ export class Register {
   protected readonly form = this.fb.group({
     nom: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    motDePasse: ['', [Validators.required, Validators.minLength(6)]],
+    motDePasse: ['', [Validators.required, Validators.minLength(8)]],
   });
 
   onSubmit(): void {

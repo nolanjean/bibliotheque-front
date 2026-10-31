@@ -157,3 +157,10 @@ ul li {
   width: auto;
   flex: 1 1 200px;
 }
+
+button:disabled,
+.bouton-primaire:disabled,
+.bouton-secondaire:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
