@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuteurService } from '../auteur';
 import { NotificationService } from '../../../core/notification';
+import { messageErreur } from '../../../core/messages-erreur';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -56,8 +57,7 @@ export class AuteurFormulaire implements OnInit {
         this.router.navigate(['/auteurs']);
       },
       error: (err) => {
-        const messages = err.error ? Object.values(err.error) : [];
-        this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'enregistrement de l'auteur.");
+        this.erreur.set(messageErreur(err, "Erreur lors de l'enregistrement de l'auteur."));
       },
     });
   }

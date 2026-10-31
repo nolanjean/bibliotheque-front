@@ -5,6 +5,7 @@ import { LivreService } from '../livre';
 import { AuteurService } from '../../auteurs/auteur';
 import { Auteur } from '../../../core/models/auteur';
 import { NotificationService } from '../../../core/notification';
+import { messageErreur } from '../../../core/messages-erreur';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -98,8 +99,7 @@ private preselectionnerAuteur(): void {
       this.router.navigate(['/livres', livre.id]);
     },
     error: (err) => {
-      const messages = err.error ? Object.values(err.error) : [];
-      this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'enregistrement du livre.");
+      this.erreur.set(messageErreur(err, "Erreur lors de l'enregistrement du livre."));
     },
   });
 }

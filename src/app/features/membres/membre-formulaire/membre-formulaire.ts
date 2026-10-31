@@ -3,6 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MembreService } from '../membre';
 import { NotificationService } from '../../../core/notification';
+import { messageErreur } from '../../../core/messages-erreur';
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -54,8 +55,7 @@ export class MembreFormulaire implements OnInit {
         this.router.navigate(['/membres', membre.id]);
       },
       error: (err) => {
-        const messages = err.error ? Object.values(err.error) : [];
-        this.erreur.set(messages.length > 0 ? messages.join(' ') : "Erreur lors de l'enregistrement du membre.");
+        this.erreur.set(messageErreur(err, "Erreur lors de l'enregistrement du membre."));
       },
     });
   }
