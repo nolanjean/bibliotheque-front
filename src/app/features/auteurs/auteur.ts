@@ -5,6 +5,12 @@ import { environment } from '../../../environments/environment';
 import { Page } from '../../core/models/page';
 import { Auteur } from '../../core/models/auteur';
 
+
+export interface FiltresAuteurs {
+  q?: string;
+  sort?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,8 +18,16 @@ export class AuteurService {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/auteurs`;
 
-  getAuteurs(): Observable<Page<Auteur>> {
-    const params = new HttpParams().set('size', 100);
+  getAuteurs(page = 0, size = 100, filtres: FiltresAuteurs = {}): Observable<Page<Auteur>> {
+    let params = new HttpParams().set('page', page).set('size', size);
+
+    if (filtres.q) {
+      params = params.set('q', filtres.q);
+    }
+    if (filtres.sort) {
+      params = params.set('sort', filtres.sort);
+    }
+
     return this.http.get<Page<Auteur>>(this.baseUrl, { params });
   }
 

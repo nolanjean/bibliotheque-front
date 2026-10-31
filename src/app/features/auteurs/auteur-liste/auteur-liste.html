@@ -1,6 +1,25 @@
 <div class="page-container">
   <h1>Liste des auteurs</h1>
 
+  <div class="filtres">
+    <input
+      type="search"
+      placeholder="Rechercher un auteur..."
+      [value]="recherche()"
+      (input)="onRecherche($event)"
+      aria-label="Rechercher un auteur"
+    />
+
+    <select (change)="onTriChange($event)" aria-label="Trier les auteurs">
+      <option value="nom,asc" [selected]="tri() === 'nom,asc'">Nom A → Z</option>
+      <option value="nom,desc" [selected]="tri() === 'nom,desc'">Nom Z → A</option>
+      <option value="id,desc" [selected]="tri() === 'id,desc'">Plus récents d'abord</option>
+      <option value="id,asc" [selected]="tri() === 'id,asc'">Plus anciens d'abord</option>
+    </select>
+
+    <button class="bouton-secondaire" (click)="reinitialiser()">Réinitialiser</button>
+  </div>
+
   @if (chargement()) {
     <p>Chargement en cours...</p>
   }
@@ -11,7 +30,9 @@
 
   @if (!chargement() && !erreur()) {
     @if (auteurs().length === 0) {
-      <p>Aucun auteur pour le moment.</p>
+      <p>
+        {{ recherche() ? 'Aucun auteur ne correspond à votre recherche.' : 'Aucun auteur pour le moment.' }}
+      </p>
     } @else {
       <ul>
         @for (auteur of auteurs(); track auteur.id) {
@@ -21,6 +42,16 @@
           </li>
         }
       </ul>
+
+      <div class="pagination">
+        <button class="bouton-secondaire" (click)="pagePrecedente()" [disabled]="pageActuelle() === 0">
+          Précédent
+        </button>
+        <span>Page {{ pageActuelle() + 1 }} / {{ totalPages() }}</span>
+        <button class="bouton-secondaire" (click)="pageSuivante()" [disabled]="pageActuelle() >= totalPages() - 1">
+          Suivant
+        </button>
+      </div>
     }
   }
 
