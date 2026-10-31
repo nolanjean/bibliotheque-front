@@ -1,6 +1,26 @@
 <div class="page-container">
   <h1>Liste des membres</h1>
 
+  <div class="filtres">
+    <input
+      type="search"
+      placeholder="Rechercher un nom ou un email..."
+      [value]="recherche()"
+      (input)="onRecherche($event)"
+      aria-label="Rechercher un membre"
+    />
+
+    <select (change)="onTriChange($event)" aria-label="Trier les membres">
+      <option value="nom,asc" [selected]="tri() === 'nom,asc'">Nom A → Z</option>
+      <option value="nom,desc" [selected]="tri() === 'nom,desc'">Nom Z → A</option>
+      <option value="email,asc" [selected]="tri() === 'email,asc'">Email A → Z</option>
+      <option value="email,desc" [selected]="tri() === 'email,desc'">Email Z → A</option>
+      <option value="id,desc" [selected]="tri() === 'id,desc'">Plus récents d'abord</option>
+    </select>
+
+    <button class="bouton-secondaire" (click)="reinitialiser()">Réinitialiser</button>
+  </div>
+
   @if (chargement()) {
     <p>Chargement en cours...</p>
   }
@@ -11,7 +31,9 @@
 
   @if (!chargement() && !erreur()) {
     @if (membres().length === 0) {
-      <p>Aucun membre pour le moment.</p>
+      <p>
+        {{ recherche() ? 'Aucun membre ne correspond à votre recherche.' : 'Aucun membre pour le moment.' }}
+      </p>
     } @else {
       <table>
         <thead>
