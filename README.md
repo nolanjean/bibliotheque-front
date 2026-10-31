@@ -13,6 +13,8 @@ Ce projet permet de consulter et gérer le catalogue d'une bibliothèque : parco
 - **Emprunts** : consultation de ses propres emprunts (membre) ou de tous les emprunts (admin), création d'un emprunt, retour d'un livre (admin)
 - **Gestion des rôles** : interface adaptée selon le rôle de l'utilisateur connecté (`ADMIN` / `MEMBRE`), à la fois dans l'affichage et dans l'accès aux routes
 - Interface responsive (mobile / desktop)
+- **Recherche, filtres et tri** : recherche par titre/ISBN, filtre par auteur et tri sur les livres ; recherche et tri sur les auteurs et les membres ; pagination sur toutes les listes
+- **Notifications** : confirmation visuelle après chaque création, modification, suppression ou retour d'emprunt
 
 ## Stack technique
 
