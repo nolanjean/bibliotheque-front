@@ -37,7 +37,9 @@
 
   @if (!chargement() && !erreur()) {
     @if (livres().length === 0) {
-      <p>Aucun livre pour le moment.</p>
+      <p>
+        {{ recherche() || auteurFiltre() ? 'Aucun livre ne correspond à votre recherche.' : 'Aucun livre pour le moment.' }}
+      </p>
     } @else {
       <table>
         <thead>
